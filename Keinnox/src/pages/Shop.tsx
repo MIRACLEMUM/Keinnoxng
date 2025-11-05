@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { products } from "../data/products";
 
@@ -22,42 +22,44 @@ const Shop = () => {
 
   return (
     <section
-      className="relative max-w-7xl mx-auto px-6 py-12 pt-32 bg-cover bg-center"
-      style={{ backgroundImage: "url('/pexels-luna-joie-3299599-34519660.jpg')" }}
+      className="relative w-full px-6 py-12 pt-32 bg-cover bg-center animate-slowZoom"
+      style={{
+        backgroundImage:
+          "url('/pexels-polina-kovaleva-7270444 - Copy.jpg')",
+      }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/60 pointer-events-none"></div>
 
-      {/* Content */}
-      <div className="relative z-10">
+      <div className="relative z-10 max-w-7xl mx-auto">
         <h1 className="text-4xl font-extrabold text-[#D4AF37] mb-8 text-center">
           {selectedCategory === "All" ? "Shop Our Collection" : selectedCategory}
         </h1>
 
-        {/* Category Links */}
+        {/* Filters */}
         <div className="flex justify-center gap-4 flex-wrap mb-10">
           {categories.map((cat) => (
-            <a
+            <Link
               key={cat}
-              href={`/shop/${cat.toLowerCase()}`}
-              className={`px-5 py-2 rounded-full font-medium transition-colors
+              to={cat === "All" ? "/shop" : `/shop/${cat.toLowerCase()}`}
+              className={`px-5 py-2 rounded-full font-medium transition-all duration-300
                 ${
                   selectedCategory.toLowerCase() === cat.toLowerCase()
-                    ? "bg-[#D4AF37] text-black"
+                    ? "bg-[#D4AF37] text-black shadow-lg"
                     : "border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/20"
                 }`}
             >
               {cat}
-            </a>
+            </Link>
           ))}
         </div>
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {/* Fade-in grid without blinking */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 animate-[fadeIn_0.6s_ease-in-out]">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white/10 backdrop-blur-md rounded-xl p-4 shadow-lg"
+              className="bg-white/10 backdrop-blur-lg rounded-xl p-4 shadow-[0_0_15px_rgba(212,175,55,0.2)]"
             >
               <ProductCard product={product} onAddToCart={handleAddToCart} />
             </div>
