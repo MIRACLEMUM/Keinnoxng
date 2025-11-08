@@ -1,12 +1,23 @@
 import { useCart } from "../context/CartContext";
 import { X } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom"; // ✅ added useNavigate
+import { Link } from "react-router-dom";
 
 export default function CartPage() {
   const { cart, increaseQty, decreaseQty, removeFromCart } = useCart();
-  const navigate = useNavigate(); // ✅ init navigate
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  // ✅ Generate WhatsApp message
+  const whatsappMessage = encodeURIComponent(
+    `Good day Keinnox 👋,\n\nHere are the items I want to place an order for:\n\n${cart
+      .map(
+        (item) =>
+          `• ${item.name} - Qty: ${item.quantity} - ₦${(
+            item.price * item.quantity
+          ).toLocaleString()}`
+      )
+      .join("\n")}\n\nTotal: ₦${subtotal.toLocaleString()}\n\nKindly send your account number so I can make payment.`
+  );
 
   return (
     <div className="min-h-screen bg-[#0B0B0B] text-[#D4AF37] pt-32 px-6">
@@ -86,12 +97,15 @@ export default function CartPage() {
               <span>₦{subtotal.toLocaleString()}</span>
             </div>
 
-            <button 
-              className="w-full bg-[#D4AF37] text-black py-3 rounded-lg font-semibold text-lg hover:bg-[#e9d69f]"
-              onClick={() => navigate("/checkout")} // ✅ navigate to checkout
+            {/* ✅ WhatsApp Order Button */}
+            <a
+              href={`https://wa.me/2347064400428?text=${whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full block text-center bg-[#D4AF37] text-black py-3 rounded-lg font-semibold text-lg hover:bg-[#e9d69f]"
             >
               Proceed to Checkout
-            </button>
+            </a>
 
             <div className="text-center mt-3">
               <Link to="/shop" className="text-sm hover:text-[#fff]">

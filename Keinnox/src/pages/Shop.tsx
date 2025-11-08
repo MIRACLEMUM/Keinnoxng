@@ -57,12 +57,13 @@ const Shop = () => {
         {/* Fade-in grid without blinking */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 animate-[fadeIn_0.6s_ease-in-out]">
           {filteredProducts.map((product) => (
-            <div
+            <Link
               key={product.id}
-              className="bg-white/10 backdrop-blur-lg rounded-xl p-4 shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+              to={`/product/${product.id}`} // ✅ Navigate to ProductDetails page
+              className="bg-white/10 backdrop-blur-lg rounded-xl p-4 shadow-[0_0_15px_rgba(212,175,55,0.2)] block"
             >
               <ProductCard product={product} onAddToCart={handleAddToCart} />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
